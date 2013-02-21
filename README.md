@@ -3,9 +3,12 @@ This Python utility downloads Magic: the Gathering Online decklists from Wizards
 
 ## Usage
 1. `git clone http://github.com/kfr2/mtgo-decklist-ripper`
-2. `mkvirtualenv decklist-ripper`
-3. `setvirtualenvproject`
-4. `pip install -r requirements.txt`
-5. `python ripper.py`
+2. `cd mtgo-decklist-ripper`
+3. `mkvirtualenv decklist-ripper`
+4. `setvirtualenvproject`
+5. `pip install -r requirements.txt`
+6. `python ripper.py`
+7. ???
+8. Profit!
 
 Enjoy.

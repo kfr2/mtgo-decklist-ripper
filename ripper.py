@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 logging.basicConfig(format='[%(levelname)s --> %(name)s] %(asctime)s:  %(message)s')
 TOURNAMENT_INFO_URL = 'http://www.wizards.com/handlers/XMLListService.ashx?dir=mtgo&type=XMLFileInfo&start=7'
-PROCESSED_TOURNAMENT_FILE = 'output/processed_tournaments.txt'
+PROCESSED_TOURNAMENT_FILE = 'output/processed-tournaments.txt'
 DEK_INDEX_FILE = 'output/dek-index.txt'
 
 

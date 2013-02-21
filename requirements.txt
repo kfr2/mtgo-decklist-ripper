@@ -1,3 +1,2 @@
 BeautifulSoup==3.2.1
-Pygments==1.5
 requests==0.14.0

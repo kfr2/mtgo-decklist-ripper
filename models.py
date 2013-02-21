@@ -104,7 +104,7 @@ class Tournament(object):
                 # Find the number of rows in the results table (-1 to remove the header row).
                 self._num_decks = len(html.find('table', width='90%').findAll('tr')) - 1
             except:
-                logger.error('Error location the Standings table in the tournament content.')
+                logger.error('Error locating the Standings table in the tournament content.')
                 exit()
         return self._num_decks
 

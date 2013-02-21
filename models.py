@@ -7,24 +7,18 @@ from BeautifulSoup import BeautifulSoup
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(format='[%(levelname)s --> %(name)s] %(asctime)s:  %(message)s')
+logger.setLevel(logging.INFO)
 
 
-class Card:
-    pass
-
-
-class DeckCategory:
-    pass
-
-
-class Deck:
-    tournament_id = None  # fk -> Tournament
-    num = None  # the deck's number within its tournament
-    category = None  # 'Red Deck Wins', 'Team America', etc
-    content = None
+class Deck(object):
+    def __init__(self):
+        self.tournament_id = None  # fk -> Tournament
+        self.num = None  # the deck's number within its tournament
+        self.category = None  # 'Red Deck Wins', 'Team America', etc
+        self.content = None
 
     def __str__(self):
-        return '%s-%s' % (self.tournament_id, self.num)
+        return 'Deck %s-%s' % (self.tournament_id, self.num)
 
     @property
     def url(self):
@@ -39,7 +33,7 @@ class Deck:
         Retrieves this Deck's .dek file and stores it in `content`
         """
         try:
-            logger.info('Retrieving dek %s' % self)
+            logger.info('Retrieving %s' % self)
             self.content = requests.get(self.url).content
         except:
             logger.error('Error loading requested dek: %s' % self)
@@ -47,8 +41,8 @@ class Deck:
     def save(self, filename=None):
         """
         Writes this deck's `content` to the specified filename or 
-        'output/deks/' with the filename tournament_id-num.dek if
-        a filename is not specified.
+        `output/deks/` with the filename tournament_id-num.dek if
+        filename is not specified.
         """
         if filename is None:
             filename = 'output/deks/%s-%s.dek' % (self.tournament_id, self.num)
@@ -61,18 +55,19 @@ class Deck:
             logger.info('%s has no content.  Not writing.' % self)
 
 
-class Tournament:
-    # hyperlink_id stores the Wizard's tournament ID
-    hyperlink_id = None
-    # format refers to the tournament type -- 'Momir Basic', 'Pauper', etc
-    format = None
-    date = None
-    _content = None
-    _num_decks = None
-    _decks = []
+class Tournament(object):
+    def __init__(self):
+        # hyperlink_id stores the Wizard's tournament ID
+        self.hyperlink_id = None
+        # format refers to the tournament type -- 'Momir Basic', 'Pauper', etc
+        self.tournament_format = None
+        self.tournament_date = None
+        self._content = None
+        self._num_decks = None
+        self._decks = []
 
     def __str__(self):
-        return self.url
+        return 'Tournament %s' % self.hyperlink_id
 
     @property
     def url(self):
@@ -90,9 +85,10 @@ class Tournament:
         """
         if not self._content:
             try:
+                logger.info('Retrieving the content of %s' % self)
                 self._content = requests.get(self.url).content
             except:
-                print('Error loading requested tournament page: %s' % self.url)
+                logger.error('Error loading requested tournament page: %s' % self.url)
                 exit()
         return self._content
 
@@ -108,7 +104,7 @@ class Tournament:
                 # Find the number of rows in the results table (-1 to remove the header row).
                 self._num_decks = len(html.find('table', width='90%').findAll('tr')) - 1
             except:
-                print('Error finding the Standings table')
+                logger.error('Error location the Standings table in the tournament content.')
                 exit()
         return self._num_decks
 
@@ -118,12 +114,13 @@ class Tournament:
         Returns the list of Decks within this tournament, first retrieving them if necessary.
         """
         if not self._decks:
+            logger.info('Retrieving %s decks for %s' % (self.num_decks, self))
             for i in xrange(1, self.num_decks):
                 deck = Deck()
                 deck.tournament_id = self.hyperlink_id
                 deck.num = i
                 deck.retrieve()
                 self._decks.append(deck)
-                sleep(1) 
+                sleep(1.1) 
         return self._decks
 

@@ -121,6 +121,6 @@ class Tournament(object):
                 deck.num = i
                 deck.retrieve()
                 self._decks.append(deck)
-                sleep(1.1) 
+                sleep(0.2) 
         return self._decks
 

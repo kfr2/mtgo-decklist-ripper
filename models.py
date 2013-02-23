@@ -115,7 +115,7 @@ class Tournament(object):
         """
         if not self._decks:
             logger.info('Retrieving %s decks for %s' % (self.num_decks, self))
-            for i in xrange(1, self.num_decks):
+            for i in xrange(1, self.num_decks + 1):
                 deck = Deck()
                 deck.tournament_id = self.hyperlink_id
                 deck.num = i

@@ -54,6 +54,7 @@ def get_tournaments():
                 except:
                     logger.error('Error downloading tournament-specific information for tournament %s.' % tournament.hyperlink_id)
 
+            processed_tournaments_file.truncate()
             processed_tournaments_file.write(','.join(processed_tournaments))
 
             return results
